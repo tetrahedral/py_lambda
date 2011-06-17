@@ -1,6 +1,7 @@
 import re
 import string
 
+
 from lookupTable import LookupTable
 from lambdaForms import Identifier, Application, Abstraction
 
