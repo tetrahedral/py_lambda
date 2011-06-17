@@ -7,19 +7,20 @@ class Application(object):
         lambda expression.  It is a list of expressions
         to be applied in left-associative order.
     '''
-    def __init__(s, lst):
-        s.lst = lst
+    def __init__(self, lst):
+        self.lst = lst
 
-    def eval(s):
-        if len(s.lst) >= 2:
-            return s.__fold(s.lst)
-        elif len(s.lst) == 1:
-            return s.lst[0]
+    def eval(self):
+        print(str(self.lst))
+        if len(self.lst) >= 2:
+            return self.__fold()
+        elif len(self.lst) == 1:
+            return self.lst[0]
         else:
             return None
 
-    def __fold(s):
-        list = s.lst
+    def __fold(self):
+        list = self.lst
         x = list[0]
         y = list[1]
 
@@ -32,12 +33,12 @@ class Application(object):
         else:
             return None
 
-    def sub(s, other):
+    def sub(self, other):
         lst = []
-        for i in range(len(s.lst)):
-            lst.append(s.lst[i].sub(other))
+        for i in range(len(self.lst)):
+            lst.append(self.lst[i].sub(other))
         return Application(lst)
 
-    def __str__(s):
-        strlst = [str(x) for x in s.lst]
+    def __str__(self):
+        strlst = [str(x) for x in self.lst]
         return '[' + ', '.join(strlst) + ']'

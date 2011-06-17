@@ -8,36 +8,43 @@ class Abstraction(object):
         in ex.  It autotmatically combines sequences of
         abstractions.
     '''
-    def __init__(s, bv, ex):
-        print('Creating new abstraction(bv, ex): ' + str((bv, str(ex))))
-        s.bv = []
-        s.ex = None
-        s.process(bv, ex)
-
-    def process(s, bv, ex):
+    def __init__(self, bv, ex):
+        tmpRep = bv if not isinstance(bv, list) else str(bv[0])
         if isinstance(bv, list):
-            s.bv.extend(bv)
+            for e in bv[1:]:
+                tmpRep += ', ' + str(e)
+        print('Creating new abstraction(bv, ex): ' + str(('[' + tmpRep + ']', str(ex))))
+        self.bv = []
+        self.ex = None
+        self.process(bv, ex)
+
+    def process(self, bv, ex):
+        if isinstance(bv, list):
+            self.bv.extend(bv)
         else:
-            s.bv.append(bv)
+            self.bv.append(bv)
 
         if isinstance(ex, Abstraction):
-            s.process(ex.bv, ex.ex)
+            self.process(ex.bv, ex.ex)
         else:
-            s.ex = ex
+            self.ex = ex
 
-    def eval(s):
-        return s
+    def eval(self):
+        return self
 
-    def reduct(s):
-        return Abstraction(s.bv, s.ex.eval())
+    def reduct(self):
+        return Abstraction(self.bv, self.ex.eval())
 
-    def apply(s, ex):
-        print('Applying ' + str(ex) + ' as ' + str(s.bv[0]) + ' to ' + str(s.ex))
-        return Abstraction(s.bv[1:], s.ex.sub(identifier.Identifier(None, s.bv[0].id, ex)))
+    def apply(self, ex):
+        print('Applying ' + str(ex) + ' as ' + str(self.bv[0]) + ' to ' + str(self.ex))
+        if len(self.bv) > 1:
+            return Abstraction(self.bv[1:], self.ex.sub(identifier.Identifier(None, self.bv[0].id, ex)))
+        else:
+            return self.ex.sub(identifier.Identifier(None, self.bv[0].id, ex))
 
-    def sub(s, other):
-        return Abstraction(s.bv, s.ex.sub(other))
+    def sub(self, other):
+        return Abstraction(self.bv, self.ex.sub(other))
 
-    def __str__(s):
-        strlst = [str(x) for x in s.bv]
-        return '([' + ', '.join(strlst) + '], ' + str(s.ex) + ')'
+    def __str__(self):
+        strlst = [str(x) for x in self.bv]
+        return '([' + ', '.join(strlst) + '], ' + str(self.ex) + ')'

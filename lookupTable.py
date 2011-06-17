@@ -4,39 +4,39 @@ class LookupTable(object):
         to distinct values.
         Contains map in each direction.
     '''
-    def __init__(s):
-        s.count = 0
-        s.renamer = {}
-        s.translate = {}
+    def __init__(self):
+        self.count = 0
+        self.renamer = {}
+        self.translate = {}
 
-    def __str__(s):
-        return 'All: '+str(s.translate)+';   Current: '+str(s.renamer)
-        
-    def rename(s, x):
-        s.count += 1
-        
-        if x in s.renamer:
-            s.renamer[x].append(s.count)
+    def __str__(self):
+        return 'All: ' + str(self.translate) + ';   Current: ' + str(self.renamer)
+
+    def rename(self, x):
+        self.count += 1
+
+        if x in self.renamer:
+            self.renamer[x].append(self.count)
         else:
-            s.renamer[x] = [s.count]
-            
-        s.translate[s.count] = x
-        
-        return s.count
-        
-    def lookup(s, x):
-        if x not in s.renamer:
+            self.renamer[x] = [self.count]
+
+        self.translate[self.count] = x
+
+        return self.count
+
+    def lookup(self, x):
+        if x not in self.renamer:
             return None
         else:
-            return s.renamer[x][-1]
-            
-    def unbind(s, x):
-        if x in s.renamer:
-            stack = s.renamer[x]
+            return self.renamer[x][-1]
+
+    def unbind(self, x):
+        if x in self.renamer:
+            stack = self.renamer[x]
             stack.pop()
-    
-    def trans(s, n):
-        if n in s.translate:
-            return s.translate[n]
+
+    def trans(self, n):
+        if n in self.translate:
+            return self.translate[n]
         else:
             return None

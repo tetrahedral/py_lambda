@@ -1,7 +1,6 @@
 import re
 import string
 
-
 from lookupTable import LookupTable
 from lambdaForms import Identifier, Application, Abstraction
 
@@ -11,40 +10,45 @@ class ParseExpression(object):
         data structure composed of objects in the LambdaForms
         module.
     '''
-    def __init__(s):
-        s.table = LookupTable()
+    def __init__(self):
+        self.table = LookupTable()
 
-        s.orig = string
-        s.stmt = s.orig
+    def go(self, string):
+        self.eval(string)
 
-    def parse(s, string):
-        if string is None:
-            s.val = s.__parse(s.stmt)
-        return s.val
+    def parse(self, string):
+        self.val = self.__parse(string)
 
-    def eval(s):
-        s.parse()
-        s.result = s.val.eval()
-        return s.result
+        print('\n' + str(string))
+        print(str(self.val) + '\n')
 
-    def __handleAbs(s, st):
+        return self.val
+
+    def eval(self, string):
+        self.result = self.parse(string).eval()
+
+        print('\n' + str(self.result) + '\n')
+
+        return self.result
+
+    def __handleAbs(self, st):
         m = re.match(r'^\\+([a-zA-Z]+)\.(.+)$', st)
         var = m.group(1)
         boundVars = []
 
         for c in var:
-            varid = s.table.rename(c)
+            varid = self.table.rename(c)
             boundVars.append(Identifier(c, varid))
 
         expr = m.group(2)
-        result = Abstraction(boundVars, s.__parse(expr))
+        result = Abstraction(boundVars, self.__parse(expr))
 
         for c in var:
-            s.table.unbind(c)
+            self.table.unbind(c)
 
         return result
 
-    def __handleApp(s, st):
+    def __handleApp(self, st):
         count = 0
         begin = -1
         lst = []
@@ -64,20 +68,20 @@ class ParseExpression(object):
             elif count == 0:
                 lst.append(st[i])
 
-        return Application([s.__parse(x) for x in lst])
+        return Application([self.__parse(x) for x in lst])
 
-    def __parse(s, st):
+    def __parse(self, st):
         if len(st) == 1:
-            return Identifier(st, s.table.lookup(st))
+            return Identifier(st, self.table.lookup(st))
 
         elif len(st) > 0:
             c = st[0]
 
             if c == '\\':                   #Expression is an abstraction
-                return s.__handleAbs(st)
+                return self.__handleAbs(st)
 
             elif c == '(' or c.isalpha():   #Expression is an application
-                return s.__handleApp(st)
+                return self.__handleApp(st)
         else:
             #print('len(st) < 0?')
             raise IndexError
@@ -91,10 +95,14 @@ def ntoc(n):
 def pair(a):
     return lambda b: lambda z: z(a)(b)
 
+PE = ParseExpression()
+
 _0 = r'\xy.y'
 F = r'\xy.y'
 T = r'\xy.x'
-Z = r'\n.n(\x.F)T'
+Z = r'\n.n(\xy.y)(\xy.x)'
 S = r'\xyz.y(xyz)'
 P = r'\nfx.n(\gh.h(gf))(\u.x)(\u.u)'
 
+PE.go('(' + Z + ')(' +
+      F + ')')

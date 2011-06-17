@@ -6,26 +6,27 @@ class Identifier(object):
         alpha-renamed value used for substitutions.  The
         val is an optional attribute used for beta-reduction.
     '''
-    def __init__(s, name, idt=None, val=None):
+    def __init__(self, name, idt=None, val=None):
         print('Creating new identifier(name, idt, val): ' + str((name, idt, str(val))))
+
         if name != None and len(name) != 1:
             raise TypeError('The first argument must be a single character.')
 
-        s.name = name[0] if name != None else None
-        s.id = idt
-        s.val = val
+        self.name = name[0] if name != None else None
+        self.id = idt
+        self.val = val
 
-    def eval(s):
-        return s
+    def eval(self):
+        return self
 
-    def sub(s, x):
-        if s.id == x.id:
+    def sub(self, x):
+        if self.id == x.id:
             return x.val
         else:
-            return s
+            return self
 
-    def __str__(s):
-        if s.val is None:
-            return str(s.name) + ':' + str(s.id)
+    def __str__(self):
+        if self.val is None:
+            return str(self.name) + ':' + str(self.id)
         else:
-            return str(s.val) + ':' + str(s.id)
+            return str(self.val) + ':' + str(self.id)
