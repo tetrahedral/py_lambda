@@ -1,3 +1,4 @@
+
 class ParseLine(object):
     '''
         Parse a single line.

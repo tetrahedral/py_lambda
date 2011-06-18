@@ -7,7 +7,8 @@ class Identifier(object):
         val is an optional attribute used for beta-reduction.
     '''
     def __init__(self, name, idt=None, val=None):
-        print('Creating new identifier(name, idt, val): ' + str((name, idt, str(val))))
+        print(' Identifier(name, idt, val): ' +
+              str((name, idt, str(val))))
 
         if name != None and len(name) != 1:
             raise TypeError('The first argument must be a single character.')

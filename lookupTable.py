@@ -1,3 +1,4 @@
+
 class LookupTable(object):
     ''' 
         Lookup table used to rename bound variables
@@ -10,7 +11,8 @@ class LookupTable(object):
         self.translate = {}
 
     def __str__(self):
-        return 'All: ' + str(self.translate) + ';   Current: ' + str(self.renamer)
+        return ('All: ' + str(self.translate) + ';   Current: ' +
+                str(self.renamer))
 
     def rename(self, x):
         self.count += 1

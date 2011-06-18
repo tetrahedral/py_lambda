@@ -5,7 +5,7 @@ class Abstraction(object):
         A lambda abstraction.  It can contain
         multiple chained bound variables in bv, and
         contains the expression bound in those variables
-        in ex.  It autotmatically combines sequences of
+        in ex.  It automatically combines sequences of
         abstractions.
     '''
     def __init__(self, bv, ex):
@@ -13,7 +13,8 @@ class Abstraction(object):
         if isinstance(bv, list):
             for e in bv[1:]:
                 tmpRep += ', ' + str(e)
-        print('Creating new abstraction(bv, ex): ' + str(('[' + tmpRep + ']', str(ex))))
+        print('Abstraction(bv, ex): ' + str(('[' + tmpRep + ']',
+                                            str(ex))))
         self.bv = []
         self.ex = None
         self.process(bv, ex)
@@ -36,9 +37,13 @@ class Abstraction(object):
         return Abstraction(self.bv, self.ex.eval())
 
     def apply(self, ex):
-        print('Applying ' + str(ex) + ' as ' + str(self.bv[0]) + ' to ' + str(self.ex))
+        print('Applying ' + str(ex) + ' as ' + str(self.bv[0]) + ' to ' +
+              str(self.ex))
+
         if len(self.bv) > 1:
-            return Abstraction(self.bv[1:], self.ex.sub(identifier.Identifier(None, self.bv[0].id, ex)))
+            return Abstraction(self.bv[1:],
+                               self.ex.sub(
+                               identifier.Identifier(None, self.bv[0].id, ex)))
         else:
             return self.ex.sub(identifier.Identifier(None, self.bv[0].id, ex))
 

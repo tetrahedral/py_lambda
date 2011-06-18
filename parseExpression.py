@@ -104,5 +104,4 @@ Z = r'\n.n(\xy.y)(\xy.x)'
 S = r'\xyz.y(xyz)'
 P = r'\nfx.n(\gh.h(gf))(\u.x)(\u.u)'
 
-PE.go('(' + Z + ')(' +
-      F + ')')
+PE.go('(' + Z + ')(' + F + ')')
